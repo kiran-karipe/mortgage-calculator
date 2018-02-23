@@ -11,13 +11,16 @@ class MortgageCalculator extends Component {
   }
 
   calculatePayment = () => {
-    let payment =  ((this.state.mortgage.amount) * (this.state.mortgage.rate)) / 100;
-    let monthlyPayment = payment / (this.state.mortgage.years * 12);
-    console.log(this.state.mortgage.amount);
-    console.log(this.state.mortgage.rate);
-    console.log(this.state.mortgage.years);
-    console.log("Yearly Payment: "+ payment);
-    console.log("Monthly Payment: "+ monthlyPayment);
+    let newRate = this.state.mortgage.rate;
+    let monthlyRate = (newRate * 0.01)/12;
+    let term = this.state.mortgage.years;
+    let factor = Math.pow(monthlyRate + 1, (term * 12));
+    let numerator = monthlyRate * factor;
+    let denominator = factor - 1;
+    let quotient = numerator / denominator;
+    let payment = Math.round(this.state.mortgage.amount * quotient);
+    console.log("Monthly Payment: "+ payment);
+    return payment;
   }
 
   amountChangedHandler = (amount) => {
@@ -57,6 +60,7 @@ class MortgageCalculator extends Component {
           onClickCalculate={this.calculatePayment}>
 
         </CalculatePayment>
+        <p>Your estimated monthly payment is: {this.calculatePayment.payment}</p>
       </div>
     )
   }

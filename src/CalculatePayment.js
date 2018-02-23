@@ -20,7 +20,6 @@ const calculatePayment = (props) => {
         <br/>
         <button onClick={props.onClickCalculate}>Calculate</button>
         <br/>
-        <label>Monthly Payment:</label>
       </div>
   )
 }
